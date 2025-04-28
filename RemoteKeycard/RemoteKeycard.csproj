@@ -18,14 +18,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_References)\Assembly-CSharp-firstpass.dll" Private="false" />
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\..\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="CommandSystem.Core" HintPath="$(EXILED_References)\CommandSystem.Core.dll" Private="false" />
-    <Reference Include="UnityEngine" HintPath="$(EXILED_References)\UnityEngine.dll" Private="false" />
-    <Reference Include="UnityEngine.CoreModule" HintPath="$(EXILED_References)\UnityEngine.CoreModule.dll" Private="false" />
-    <Reference Include="Mirror" HintPath="$(EXILED_References)\Mirror.dll" Private="false" />
+    <Reference Include="Mirror">
+      <HintPath>..\..\..\SCP-NWAPI-PLUGIN\Mirror.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\SCP-NWAPI-PLUGIN\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\SCP服务器\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExMod.Exiled" Version="9.0.1" />
+    <PackageReference Include="ExMod.Exiled" Version="9.6.0-beta7" />
   </ItemGroup>
 </Project>

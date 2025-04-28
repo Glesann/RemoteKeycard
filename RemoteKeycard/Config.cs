@@ -1,10 +1,5 @@
 ﻿using Exiled.API.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RemoteKeycard
 {
@@ -13,7 +8,7 @@ namespace RemoteKeycard
         /// <summary>
         ///     Whether Amnesia affects the usage of keycards.
         /// </summary>
-        [Description("Whether  Amnesia affects the usage of keycards.")]
+        [Description("Whether Amnesia affects the usage of keycards.")]
         public bool AmnesiaMatters { get; set; } = true;
 
         /// <summary>

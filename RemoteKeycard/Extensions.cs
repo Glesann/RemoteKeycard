@@ -2,7 +2,6 @@
 using Exiled.API.Features.Items;
 using System.Linq;
 using Exiled.API.Features;
-using Interactables.Interobjects.DoorUtils;
 using Exiled.API.Enums;
 
 namespace RemoteKeycard

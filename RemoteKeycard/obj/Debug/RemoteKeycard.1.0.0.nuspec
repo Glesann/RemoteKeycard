@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>RemoteKeycard</id>
+    <version>1.0.0</version>
+    <authors>Beryl</authors>
+    <description>Package Description</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="ExMod.Exiled" version="9.6.0-beta7" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\SCP_EXILED_Plugins\RemoteKeycard-3.3.2\RemoteKeycard\bin\x64\Debug\RemoteKeycard.dll" target="lib\net48\RemoteKeycard.dll" />
+    <file src="D:\SCP_EXILED_Plugins\RemoteKeycard-3.3.2\RemoteKeycard\bin\x64\Debug\RemoteKeycard.xml" target="lib\net48\RemoteKeycard.xml" />
+  </files>
+</package>

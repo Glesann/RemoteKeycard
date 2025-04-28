@@ -1,7 +1,6 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using System;
-using Interactables.Interobjects.DoorUtils;
 using Players = Exiled.Events.Handlers.Player;
 using Exiled.API.Enums;
 
