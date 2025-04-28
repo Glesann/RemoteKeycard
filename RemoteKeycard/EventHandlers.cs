@@ -1,130 +1,132 @@
-﻿namespace RemoteKeycard;
-
-using System;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using System;
 using Interactables.Interobjects.DoorUtils;
 using Players = Exiled.Events.Handlers.Player;
+using Exiled.API.Enums;
 
-public class EventHandlers
+namespace RemoteKeycard
 {
-    private readonly Config _config;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="EventHandlers" /> class.
-    /// </summary>
-    /// <param name="config">The <see cref="Config" /> settings that will be used.</param>
-    public EventHandlers(Config config)
+    public class EventHandlers
     {
-        this._config = config;
-    }
+        private readonly Config _config;
 
-    /// <summary>
-    ///     Registers all events used.
-    /// </summary>
-    public void Start()
-    {
-        Log.Debug("Registering Events");
-        Players.InteractingDoor += OnDoorInteract;
-        Players.UnlockingGenerator += OnGeneratorUnlock;
-        Players.InteractingLocker += OnLockerInteract;
-        Players.ActivatingWarheadPanel += OnWarheadUnlock;
-    }
-
-    /// <summary>
-    ///     Unregisters all events used.
-    /// </summary>
-    public void Stop()
-    {
-        Players.InteractingDoor -= OnDoorInteract;
-        Players.UnlockingGenerator -= OnGeneratorUnlock;
-        Players.InteractingLocker -= OnLockerInteract;
-        Players.ActivatingWarheadPanel -= OnWarheadUnlock;
-    }
-
-    private void OnDoorInteract(InteractingDoorEventArgs ev)
-    {
-        Log.Debug("Door Interact Event");
-        try
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EventHandlers" /> class.
+        /// </summary>
+        /// <param name="config">The <see cref="Config" /> settings that will be used.</param>
+        public EventHandlers(Config config)
         {
-            if (!_config.AffectDoors)
-                return;
-
-            Log.Debug(
-                $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(ev.Door.RequiredPermissions.RequiredPermissions)}, Current Item: ${ev.Player.CurrentItem}");
-
-            if (!ev.IsAllowed && ev.Player.HasKeycardPermission(ev.Door.RequiredPermissions.RequiredPermissions) &&
-                !ev.Door.IsLocked)
-                ev.IsAllowed = true;
+            this._config = config;
         }
-        catch (Exception e)
+
+        /// <summary>
+        ///     Registers all events used.
+        /// </summary>
+        public void Start()
         {
-            if (_config.ShowExceptions)
-                Log.Warn($"{nameof(OnDoorInteract)}: {e.Message}\n{e.StackTrace}");
+            Log.Debug("Registering Events");
+            Players.InteractingDoor += OnDoorInteract;
+            Players.UnlockingGenerator += OnGeneratorUnlock;
+            Players.InteractingLocker += OnLockerInteract;
+            Players.ActivatingWarheadPanel += OnWarheadUnlock;
         }
-    }
 
-    private void OnWarheadUnlock(ActivatingWarheadPanelEventArgs ev)
-    {
-        Log.Debug("Warhead Unlock Event");
-        try
+        /// <summary>
+        ///     Unregisters all events used.
+        /// </summary>
+        public void Stop()
         {
-            if (!_config.AffectWarheadPanel)
-                return;
-
-            Log.Debug(
-                $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(KeycardPermissions.AlphaWarhead)}");
-
-            if (!ev.IsAllowed && ev.Player.HasKeycardPermission(KeycardPermissions.AlphaWarhead))
-                ev.IsAllowed = true;
+            Players.InteractingDoor -= OnDoorInteract;
+            Players.UnlockingGenerator -= OnGeneratorUnlock;
+            Players.InteractingLocker -= OnLockerInteract;
+            Players.ActivatingWarheadPanel -= OnWarheadUnlock;
         }
-        catch (Exception e)
+
+        private void OnDoorInteract(InteractingDoorEventArgs ev)
         {
-            if (_config.ShowExceptions)
-                Log.Warn($"{nameof(OnWarheadUnlock)}: {e.Message}\n{e.StackTrace}");
+            Log.Debug("Door Interact Event");
+            try
+            {
+                if (!_config.AffectDoors)
+                    return;
+
+                Log.Debug(
+                    $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(ev.Door.KeycardPermissions)}, Current Item: ${ev.Player.CurrentItem}");
+
+                if (!ev.IsAllowed && ev.Player.HasKeycardPermission(ev.Door.KeycardPermissions) &&
+                    !ev.Door.IsLocked)
+                    ev.IsAllowed = true;
+            }
+            catch (Exception e)
+            {
+                if (_config.ShowExceptions)
+                    Log.Warn($"{nameof(OnDoorInteract)}: {e.Message}\n{e.StackTrace}");
+            }
         }
-    }
 
-    private void OnGeneratorUnlock(UnlockingGeneratorEventArgs ev)
-    {
-        Log.Debug("Generator Unlock Event");
-        try
+        private void OnWarheadUnlock(ActivatingWarheadPanelEventArgs ev)
         {
-            if (!_config.AffectGenerators)
-                return;
+            Log.Debug("Warhead Unlock Event");
+            try
+            {
+                if (!_config.AffectWarheadPanel)
+                    return;
 
-            Log.Debug(
-                $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(ev.Generator.Base._requiredPermission)}");
+                Log.Debug(
+                    $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(KeycardPermissions.AlphaWarhead)}");
 
-            if (!ev.IsAllowed && ev.Player.HasKeycardPermission(ev.Generator.Base._requiredPermission))
-                ev.IsAllowed = true;
+                if (!ev.IsAllowed && ev.Player.HasKeycardPermission(KeycardPermissions.AlphaWarhead))
+                    ev.IsAllowed = true;
+            }
+            catch (Exception e)
+            {
+                if (_config.ShowExceptions)
+                    Log.Warn($"{nameof(OnWarheadUnlock)}: {e.Message}\n{e.StackTrace}");
+            }
         }
-        catch (Exception e)
+
+        private void OnGeneratorUnlock(UnlockingGeneratorEventArgs ev)
         {
-            if (_config.ShowExceptions)
-                Log.Warn($"{nameof(OnGeneratorUnlock)}: {e.Message}\n{e.StackTrace}");
+            Log.Debug("Generator Unlock Event");
+            try
+            {
+                if (!_config.AffectGenerators)
+                    return;
+
+                Log.Debug(
+                    $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(ev.Generator.KeycardPermissions)}");
+
+                if (!ev.IsAllowed && ev.Player.HasKeycardPermission(ev.Generator.KeycardPermissions))
+                    ev.IsAllowed = true;
+            }
+            catch (Exception e)
+            {
+                if (_config.ShowExceptions)
+                    Log.Warn($"{nameof(OnGeneratorUnlock)}: {e.Message}\n{e.StackTrace}");
+            }
         }
-    }
 
-    private void OnLockerInteract(InteractingLockerEventArgs ev)
-    {
-        Log.Debug("Locker Interact Event");
-        try
+        private void OnLockerInteract(InteractingLockerEventArgs ev)
         {
-            if (!_config.AffectScpLockers)
-                return;
+            Log.Debug("Locker Interact Event");
+            try
+            {
+                if (!_config.AffectScpLockers)
+                    return;
 
-            Log.Debug(
-                $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(ev.InteractingChamber.Base.RequiredPermissions, true)}");
+                Log.Debug(
+                    $"Allowed: {ev.IsAllowed}, Permission?: {ev.Player.HasKeycardPermission(ev.InteractingChamber.RequiredPermissions, true)}");
 
-            if (!ev.IsAllowed && ev.InteractingChamber != null &&
-                ev.Player.HasKeycardPermission(ev.InteractingChamber.Base.RequiredPermissions, true))
-                ev.IsAllowed = true;
-        }
-        catch (Exception e)
-        {
-            if (_config.ShowExceptions)
-                Log.Warn($"{nameof(OnLockerInteract)}: {e.Message}\n{e.StackTrace}");
+                if (!ev.IsAllowed && ev.InteractingChamber != null &&
+                    ev.Player.HasKeycardPermission(ev.InteractingChamber.RequiredPermissions, true))
+                    ev.IsAllowed = true;
+            }
+            catch (Exception e)
+            {
+                if (_config.ShowExceptions)
+                    Log.Warn($"{nameof(OnLockerInteract)}: {e.Message}\n{e.StackTrace}");
+            }
         }
     }
 }
